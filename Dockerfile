@@ -6,7 +6,7 @@ WORKDIR /usr/src/
 COPY package*.json ./
 
 RUN npm install --production
-RUN npm install -g nodemon ts-node
+RUN npm install -g nodemon ts-node typeorm
 
 # Copy only necessary files
 COPY dist ./dist

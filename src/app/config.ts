@@ -4,7 +4,7 @@ dotenv.config();
 export interface Config {
   port: number;
   appUrl: string,
-  mysql: {
+  postgres: {
     host: string;
     port: number;
     database: string;
@@ -16,7 +16,7 @@ export interface Config {
 export const config: Config = {
   port: Number(process.env.PORT),
   appUrl: String(process.env.APP_URL),
-  mysql: {
+  postgres: {
     host: String(process.env.DATABASE_HOST),
     port: Number(process.env.DATABASE_PORT),
     database: String(process.env.DATABASE_NAME),

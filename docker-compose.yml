@@ -7,3 +7,16 @@ services:
       - "8000:8000"
     volumes:
       - .:/usr/src/
+  db:
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: rise_db
+      POSTGRES_USER: rise_db_user
+      POSTGRES_PASSWORD: rise_db_password
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:
