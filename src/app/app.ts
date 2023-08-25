@@ -14,7 +14,7 @@ import helmet from 'helmet';
 import compression from 'compression';
 import bodyParser from 'body-parser';
 import routes from '../routes';
-import errorMiddleware from './middleware';
+import { errorMiddleware } from './middleware';
 import { ServiceFactory } from '../factory';
 import { config } from './config';
 
@@ -46,15 +46,6 @@ try {
   // handle unexpected errors
   app.use(errorMiddleware);
 
-  /**
-   * Default to health for all unregistered routes
-   */
-  app.all('*', (req: Request, res: Response, next: NextFunction) => {
-    return res.send({
-      status: 'Rise service is up and running',
-      code: 200
-    });
-  });
 
   process.on('unhandledRejection', (error: Error) => 
     logger.error('Unhandled Rejection:', error, error.stack),

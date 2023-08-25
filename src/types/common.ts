@@ -1,3 +1,7 @@
+import { Request } from 'express';
+import { JwtPayload } from 'jsonwebtoken';
+import { Mock } from 'vitest';
+
 export type Logger = {
   log: Function;
   error: Function;
@@ -24,4 +28,29 @@ export interface PaginationFilters {
   filters?: {
     [key: string]: any
   }
+}
+
+export interface AppRequest extends Request {
+  user: { [key: string]: any };
+}
+
+type Mockable<T> = T extends (...args: infer P) => unknown
+  ? Mock<P, ReturnType<T>>
+  : // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  T extends (args: any) => unknown
+  ? Mock<Parameters<T>, ReturnType<T>>
+  : T;
+
+export type ReturnType<T extends (...args: any) => any> = T extends (...args: any) => infer R ? R : any;
+
+export type TypeMock<T> = T & {
+  mocks: {
+    [Property in keyof T]: Mockable<T[Property]>;
+  };
+};
+
+export interface JWT {
+  verify: () => JwtPayload;
+  sign: (options: Dictionary, secret: string, expiry: Dictionary) => JwtPayload | string;
+  decode: () => JwtPayload | string;
 }

@@ -11,6 +11,10 @@ export interface Config {
     user: string;
     password: string;
   };
+  jwt: {
+    secretKey: string;
+    expiry: string;
+  }
 }
 
 export const config: Config = {
@@ -23,4 +27,8 @@ export const config: Config = {
     user: String(process.env.DATABASE_USERNAME),
     password: String(process.env.DATABASE_PASSWORD),
   },
+  jwt: {
+    secretKey: process.env.JWT_SECRET || 'secret-key-ref',
+    expiry: '1h'
+  }
 }

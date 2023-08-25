@@ -12,7 +12,7 @@ interface PostControllerInterface {
   list(req: Request, res: Response, next?: NextFunction): Promise<void | Response<any, Record<string, any>>>;
 }
 
-export class CommentController extends Controller implements PostControllerInterface {
+export class PostController extends Controller implements PostControllerInterface {
   constructor(logger: Logger, service: any) {
     super(logger)
   }

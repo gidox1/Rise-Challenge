@@ -1,3 +1,4 @@
+import httpStatus from 'http-status';
 import { Dictionary } from './common';
 
 export interface ErrorCode {
@@ -11,6 +12,8 @@ export enum ErrorCodeType {
   validationError = 'validationError',
   notFound = 'notFound',
   badRequest = 'badRequest',
+  integrityError = 'integrityError',
+  unauthorized = 'unauthorized'
 }
 
 export class ErrorCodes {
@@ -35,6 +38,18 @@ export class ErrorCodes {
     message: 'bad request',
     httpCode: 'BAD_REQUEST',
   };
+
+  public static integrityError: ErrorCode = {
+    type: ErrorCodeType.integrityError,
+    message: 'Resource already exists',
+    httpCode: 'CONFLICT',
+  }
+
+  public static unauthorized: ErrorCode = {
+    type: ErrorCodeType.unauthorized,
+    message: 'Resource already exists',
+    httpCode: 'UNAUTHORIZED',
+  }
 }
 
 
