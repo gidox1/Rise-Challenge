@@ -8,6 +8,10 @@ import { UserController } from './modules/user/user.controller';
 import { UserManagementService } from "./modules/user/user.service";
 import { logger } from "./lib/logger";
 import * as helpers from './modules/user/user.helper';
+import { PostManagementService, PostService } from "./modules/post/post.service";
+import { CommentManagementService } from "./modules/comment/comment.service";
+import { Comment } from "./entity/comment/comment.entity";
+import { PostController } from "./modules/post/post.controller";
 
 export class ServiceFactory {
   private static config: Config;
@@ -42,11 +46,30 @@ export class ServiceFactory {
   public static async getUserService(): Promise<UserManagementService> {
     const config = ServiceFactory.getConfig();
     const repository = await ServiceFactory.getUserRepository();
-    return new UserManagementService(logger, config, repository, helpers);
+    const postService = await ServiceFactory.getPostService();
+    return new UserManagementService(logger, config, repository, helpers, postService);
   }
 
   public static async getUserController(): Promise<UserController> {
     const service = await ServiceFactory.getUserService();
     return new UserController(logger, service);
+  }
+
+  public static async getPostService(): Promise<PostService> {
+    const config = ServiceFactory.getConfig();
+    const repository = await ServiceFactory.getPostRepository();
+    const commentService = await ServiceFactory.getCommentService();
+    return new PostManagementService(logger, config, repository, commentService)
+  }
+
+  public static async getPostController(): Promise<PostController> {
+    const service = await ServiceFactory.getPostService();
+    return new PostController(logger, service);
+  }
+
+  public static async getCommentService(): Promise<CommentManagementService> {
+    const config = ServiceFactory.getConfig();
+    const repository = await ServiceFactory.getCommentRepository();
+    return new CommentManagementService(logger, config, repository)
   }
 }

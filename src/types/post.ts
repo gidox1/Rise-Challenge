@@ -1,6 +1,9 @@
+import { User } from "../entity/user/user.entity";
+
 export interface CreatePost {
-  content: string;
-  postId: number
+  body: string;
+  title: string;
+  user?: User;
 }
 
 export interface PostDomain {

@@ -1,3 +1,4 @@
+import 'reflect-metadata';
 import { Entity, PrimaryGeneratedColumn, CreateDateColumn, Column, Index, ManyToOne, JoinColumn } from 'typeorm';
 import { Post } from '../post/post.entity';
 
@@ -7,7 +8,7 @@ export class Comment {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column('text', { nullable: false })
   content: string;
 
   @CreateDateColumn()

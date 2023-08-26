@@ -49,8 +49,8 @@ export type TypeMock<T> = T & {
   };
 };
 
-export interface JWT {
-  verify: () => JwtPayload;
-  sign: (options: Dictionary, secret: string, expiry: Dictionary) => JwtPayload | string;
-  decode: () => JwtPayload | string;
+export interface Context {
+  body: { [key: string]: any };
+  params: { [key: string]: any };
+  query: { [key: string]: any };
 }

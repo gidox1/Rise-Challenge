@@ -1,3 +1,4 @@
+import 'reflect-metadata';
 import { Entity, PrimaryGeneratedColumn, CreateDateColumn, Column, OneToMany, ManyToOne, JoinColumn } from 'typeorm';
 import { Comment } from '../comment/comment.entity';
 import { User } from '../user/user.entity';
@@ -7,10 +8,10 @@ export class Post {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column('varchar', { nullable: false })
   title: string;
 
-  @Column()
+  @Column('text', { nullable: false })
   body: string;
 
   @CreateDateColumn()
@@ -24,5 +25,5 @@ export class Post {
   user: User;
 
   @OneToMany(() => Comment, comment => comment.post)
-  comments: Comment[];
+  comments?: Comment[];
 }

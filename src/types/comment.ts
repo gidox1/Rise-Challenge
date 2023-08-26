@@ -1,6 +1,14 @@
+import { Post } from "../entity/post/post.entity";
+
 export interface CreateComment {
   content: string;
-  postId: number
+  post: Post,
+  postId?: number,
+}
+
+export interface PostCommentRequest {
+  content: string;
+  postId: number,
 }
 
 export interface CommentDomain {

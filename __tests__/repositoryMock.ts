@@ -10,6 +10,7 @@ export function getUserRepository(): Repository<User> {
     find: vi.fn(),
     findOneBy: vi.fn(),
     findOne: vi.fn(),
+    findOneByOrFail: vi.fn()
   }
   return functions as Repository<User>;
 }
@@ -21,6 +22,7 @@ export function getPostRepository(): Repository<Post> {
     find: vi.fn(),
     findOneBy: vi.fn(),
     findOne: vi.fn(),
+    findOneByOrFail: vi.fn()
   }
   return functions as Repository<Post>;
 }
@@ -32,6 +34,7 @@ export function getCommentRepository(): Repository<Comment> {
     find: vi.fn(),
     findOneBy: vi.fn(),
     findOne: vi.fn(),
+    findOneByOrFail: vi.fn()
   }
   return functions as Repository<Comment>;
 }

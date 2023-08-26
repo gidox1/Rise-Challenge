@@ -6,10 +6,15 @@ import { UserHelperService, decryptPassword, hashPassword } from './user.helper'
 import { User } from '../../entity/user/user.entity';
 import { ContextualError, ErrorCodes } from '../../types/errors';
 import jwt from 'jsonwebtoken';
+import { CreatePost} from '../../types/post';
+import { Post } from '../../entity/post/post.entity';
+import { PostService } from '../post/post.service';
+import { CommentManagementService } from '../comment/comment.service';
 
 export interface UserService {
   create(request: CreateUser): Promise<User>
   list(query: PaginationFilters): Promise<User[]>
+  createPost(data: CreatePost, userId: number): Promise<Post>
   login(data: LoginUser): Promise<LoginResponse>
 }
 
@@ -18,7 +23,8 @@ export class UserManagementService implements UserService {
     private logger: Logger,
     private config: Config,
     private repository: Repository<User>,
-    private helpers: UserHelperService
+    private helpers: UserHelperService,
+    private postService: PostService,
   ) {}
   
   async create(request: CreateUser): Promise<User> {
@@ -35,13 +41,13 @@ export class UserManagementService implements UserService {
         metrics.userExists = 'true';
         throw new ContextualError('user already exist', metrics, undefined, ErrorCodes.integrityError);
       }
-      await this.repository
+
       request.password = await this.helpers.hashPassword(request.password);
       const user = this.repository.create(request);
       return await this.repository.save(user);
     } catch(error) {
       const message = 'failed while creating user';
-      this.logger.log(message, error);
+      this.logger.error(message, error);
       if(error instanceof ContextualError) {
         throw error;
       }
@@ -73,13 +79,44 @@ export class UserManagementService implements UserService {
       }
     } catch(error) {
       const message = 'failed to authenticate user';
-      this.logger.log(message, error, {
+      this.logger.error(message, error, {
         metrics
       });
       if(error instanceof ContextualError) {
         throw error;
       }
       throw new ContextualError(message, metrics, error);
+    }
+  }
+
+  async createPost(data: CreatePost, userId: number): Promise<Post> {
+    this.logger.log('[CREATE-POST]: started process of creating post');
+    const metrics: Dictionary<string | number> = {};
+    metrics.userId = userId;
+    metrics.title = data.title;
+
+    try {
+      const user = await this.repository.findOneByOrFail({
+        id: +userId
+      })
+      return await this.postService.create({
+        ...data,
+        user,
+      });
+    } catch(error) {
+      const message = error.message ?? 'failed to create post for user: ';
+      this.logger.error(message, error, {
+        metrics
+      });
+      if(error.name === 'EntityNotFoundError') {
+        throw new ContextualError(
+          `user with id ${userId} was not found`, 
+          metrics, 
+          undefined, 
+          ErrorCodes.notFound
+        );
+      }
+      throw error;
     }
   }
 

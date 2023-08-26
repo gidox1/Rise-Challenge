@@ -29,7 +29,7 @@ export const errorMiddleware = (error: Error, req: Request, res: Response, next:
   });
 };
 
-export const authMiddleware = (req: AppRequest, res: Response, next: NextFunction, config: Config) => {
+export const authMiddleware = (req: AppRequest, res: Response, config: Config, next: NextFunction) => {
   const token = $getAuthToken(req);
   if (!token) {
     return res.status(httpStatus.UNAUTHORIZED).json({ message: 'Access denied. No token provided.' });
