@@ -1,4 +1,5 @@
 import * as dotenv from 'dotenv';
+import { PaginationFilters } from '../types/common';
 dotenv.config();
 
 export interface Config {
@@ -14,6 +15,10 @@ export interface Config {
   jwt: {
     secretKey: string;
     expiry: string;
+  },
+  pagination: PaginationFilters,
+  reids: {
+    port: number,
   }
 }
 
@@ -30,5 +35,14 @@ export const config: Config = {
   jwt: {
     secretKey: process.env.JWT_SECRET || 'secret-key-ref',
     expiry: '1h'
+  },
+  pagination: {
+    page: +process.env.PAGE || 1,
+    pageSize: +process.env.PAGE_SIZE || 20,
+    orderBy: process.env.ORDER_BY || 'createdAt',
+    sortOrder: (process.env.ORDER_BY as 'DESC' | 'ASC') || 'ASC',
+  },
+  reids: {
+    port: +process.env.REDIS_PORT || 6378,
   }
 }

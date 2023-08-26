@@ -13,3 +13,16 @@ export interface PostDomain {
   createdAt: Date;
   updatedAt: Date;
 }
+
+export interface TopPostComments {
+  comment_content: string;
+  postId: string;
+  createdAt: string;
+}
+
+export interface TopPostsResult {
+  userId: number;
+  userName: string;
+  postId: number;
+  comments: TopPostComments[];
+}

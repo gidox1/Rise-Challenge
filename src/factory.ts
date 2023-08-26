@@ -59,7 +59,9 @@ export class ServiceFactory {
     const config = ServiceFactory.getConfig();
     const repository = await ServiceFactory.getPostRepository();
     const commentService = await ServiceFactory.getCommentService();
-    return new PostManagementService(logger, config, repository, commentService)
+    const userRepository = await ServiceFactory.getUserRepository();
+    const commentRepository = await ServiceFactory.getCommentRepository()
+    return new PostManagementService(logger, config, repository, userRepository, commentRepository, commentService)
   }
 
   public static async getPostController(): Promise<PostController> {

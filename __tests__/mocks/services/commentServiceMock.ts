@@ -18,6 +18,7 @@ const mockFunctions = () => {
       .mockResolvedValue(commentMock),
     list: vi.fn<Parameters<CommentService['list']>, ReturnType<CommentService['list']>>()
       .mockResolvedValue([commentMock]),
+    getCommentsByPosts: vi.fn<Parameters<CommentService['getCommentsByPosts']>, ReturnType<CommentService['getCommentsByPosts']>>()
   }
 }
 

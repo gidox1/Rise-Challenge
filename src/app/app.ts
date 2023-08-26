@@ -1,9 +1,5 @@
 import express, {
   Application,
-  NextFunction,
-  Request,
-  Response,
-  Router
 } from 'express';
 
 import { createServer } from 'http';
@@ -45,7 +41,6 @@ try {
 
   // handle unexpected errors
   app.use(errorMiddleware);
-
 
   process.on('unhandledRejection', (error: Error) => 
     logger.error('Unhandled Rejection:', error, error.stack),

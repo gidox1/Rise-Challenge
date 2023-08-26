@@ -18,7 +18,7 @@ const mockFunctions = () => {
     create: vi.fn<Parameters<PostService['create']>, ReturnType<PostService['create']>>(),
     comment: vi.fn<Parameters<PostService['comment']>, ReturnType<PostService['comment']>>(),
     list: vi.fn<Parameters<PostService['list']>, ReturnType<PostService['list']>>(),
-    top3: vi.fn<Parameters<PostService['top3']>, ReturnType<PostService['top3']>>(),
+    topPosts: vi.fn<Parameters<PostService['topPosts']>, ReturnType<PostService['topPosts']>>(),
   }
 }
 

@@ -2,17 +2,20 @@ import { Repository } from 'typeorm';
 import { Config } from '../../app/config';
 import { Post } from '../../entity/post/post.entity';
 import { Dictionary, Logger, PaginationFilters } from '../../types/common';
-import { CreatePost } from '../../types/post';
+import { CreatePost, TopPostsResult, TopPostComments } from '../../types/post';
 import { ContextualError, ErrorCodes } from '../../types/errors';
 import { PostCommentRequest } from '../../types/comment';
 import { Comment } from '../../entity/comment/comment.entity';
 import { CommentService } from '../comment/comment.service';
+import { topUsersWithHighestPosts } from '../user/user.model';
+import { User } from '../../entity/user/user.entity';
+import { latestCommentsForPosts } from '../comment/comment.model';
 
 export interface PostService {
   create(request: CreatePost): Promise<Post>
   comment(request: PostCommentRequest, userId: number): Promise<Comment>
   list(query: PaginationFilters): Promise<Post[]>
-  top3(): Promise<(Post & Comment)[]>
+  topPosts(): Promise<TopPostsResult[]>
 }
 
 export class PostManagementService implements PostService {
@@ -20,6 +23,8 @@ export class PostManagementService implements PostService {
     private logger: Logger,
     private config: Config,
     private repository: Repository<Post>,
+    private userRepository: Repository<User>,
+    private commentRepository: Repository<Comment>,
     private commentService: CommentService
   ) {}
   
@@ -74,12 +79,35 @@ export class PostManagementService implements PostService {
     }
   }
 
+  async topPosts(): Promise<TopPostsResult[]> {
+    this.logger.log('[COMMENT-CREATE]: started process of fetching top post');
 
-  async list(query: PaginationFilters): Promise<Post[]> {
-    return;
+    try {
+      const topPosts = await topUsersWithHighestPosts(this.userRepository)
+      const topPostsIds = topPosts.map(post => post.post_id);
+      const latestPostsComments = await latestCommentsForPosts(this.commentRepository, topPostsIds, this.config);
+  
+      const topUsersResult = topPosts.map(topPost => {
+        const latestComment = <TopPostComments[]>latestPostsComments.filter(comment => comment.postId === topPost.post_id);
+        return {
+          userId: +topPost.user_id,
+          userName: topPost.user_name,
+          postId: +topPost.post_id,
+          comments: latestComment ?? [],
+        };
+      });
+      return topUsersResult;
+    } catch(error) {
+      const message = error.message ?? 'failed to fetch top posts';
+      this.logger.error(
+        error.message ?? message, 
+        error, 
+      );
+      throw new ContextualError(message, {}, error);
+    }
   }
 
-  async top3(): Promise<(Post & Comment)[]> {
+  async list(query: PaginationFilters): Promise<Post[]> {
     return;
   }
 }

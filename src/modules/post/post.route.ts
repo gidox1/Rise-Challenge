@@ -36,4 +36,10 @@ export default async (app: Application) => {
     (req: AppRequest, res: Response, next: NextFunction) => authMiddleware(req, res, config, next),
     (req: AppRequest, res: Response, next: NextFunction) => controller.comment(req, res)
   );
+
+  // retrieve top posts
+  app.get(`/${routePrefix}/top-posts`,
+    (req: AppRequest, res: Response, next: NextFunction) => authMiddleware(req, res, config, next),
+    (req: AppRequest, res: Response, next: NextFunction) => controller.topPosts(req, res)
+  );
 }

@@ -6,7 +6,9 @@
   "scripts": {
     "test": "vitest",
     "coverage": "vitest run --coverage",
-    "start:dev": "cross-env NODE_ENV=dev ts-node-dev appServer.ts"
+    "start:dev": "cross-env NODE_ENV=dev ts-node-dev appServer.ts",
+    "start": "npm run serve",
+    "prestart": "npm run migration:run"
   },
   "keywords": [],
   "author": "",
@@ -24,6 +26,7 @@
     "joi": "^17.9.2",
     "jsonwebtoken": "^9.0.1",
     "pg": "^8.11.3",
+    "redis": "^4.6.8",
     "turbo-logger": "^1.1.9",
     "typeorm": "^0.3.17",
     "typescript": "^5.1.6"
@@ -31,6 +34,8 @@
   "devDependencies": {
     "@types/bcrypt": "^5.0.0",
     "@types/bcryptjs": "^2.4.2",
+    "@types/compression": "^1.7.2",
+    "@types/cors": "^2.8.13",
     "@types/jsonwebtoken": "^9.0.2",
     "@vitest/coverage-c8": "^0.33.0",
     "@vitest/coverage-v8": "^0.34.3",

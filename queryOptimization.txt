@@ -1,0 +1,42 @@
+PROVIDED QUERY:
+
+SELECT users.id, users.name, posts.title, comments.content
+FROM users
+LEFT JOIN posts ON users.id = posts.userId
+LEFT JOIN comments ON posts.id = comments.postId
+WHERE comments.createdAt = (SELECT MAX(createdAt) FROM comments WHERE postId = posts.id)
+ORDER BY (SELECT COUNT(posts.id) FROM posts WHERE posts.userId = users.id) DESC
+LIMIT 3;
+
+AIM
+The query attempts to fetch the top 3 users with the most posts and, for each of those users, the latest comment they made. However, it's inefficient and needs optimization.
+
+BOTTLENECKS
+The provided query has the following possible bottlenecks
+- The use of subqueries in the WHERE statement.
+- The use of subqueries in the ORDER BY statement.
+
+
+IMPROVED QUERY
+
+SELECT
+  u.id AS user_id,
+  u.name AS user_name,
+  p.title AS post_title,
+  (
+    SELECT c.content
+    FROM comments c
+    WHERE c.postId = p.id
+    ORDER BY c.createdAt DESC
+    LIMIT 1
+  ) AS latest_comment_content
+FROM users u
+LEFT JOIN posts p ON u.id = p.userId
+ORDER BY COUNT(p.id) DESC
+LIMIT 3;
+
+Advantages:
+- Fewer subqueries and joins.
+- Easy ordering by count of posts.
+- top-level query to filter comments.
+

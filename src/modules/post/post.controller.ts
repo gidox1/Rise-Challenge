@@ -15,6 +15,7 @@ interface PostControllerInterface {
   create(req: Request, res: Response, next?: NextFunction): Promise<void | Response<any, Record<string, any>>>;
   comment(req: Request, res: Response, next?: NextFunction): Promise<void | Response<any, Record<string, any>>>;
   list(req: Request, res: Response, next?: NextFunction): Promise<void | Response<any, Record<string, any>>>;
+  topPosts(req: Request, res: Response, next?: NextFunction): Promise<void | Response<any, Record<string, any>>>;
 }
 
 export class PostController implements PostControllerInterface {
@@ -46,6 +47,17 @@ export class PostController implements PostControllerInterface {
     }, user.id).then((response) => {
       res.status(httpStatus.CREATED).send({
         message: 'comment added to post successfully',
+        data: response
+      });
+    }).catch((error: ContextualError) => {
+      return handleError(res, error, this.logger);
+    })
+  }
+
+  async topPosts(req: Request, res: Response): Promise<void | Response<any, Record<string, any>>> {
+    return this.service.topPosts().then((response) => {
+      res.status(httpStatus.CREATED).send({
+        message: 'top posts retrieved successfully',
         data: response
       });
     }).catch((error: ContextualError) => {
