@@ -22,7 +22,7 @@ export const requestValidator = (
     return res.status(422).send({
       error: true,
       code: ErrorCodes.schemaValidationFailed,
-      details: resolver.error.message
+      details: resolver.error.message,
     });
   }
   next();

@@ -3,7 +3,7 @@ import { AppRequest } from '../types/common';
 import httpStatus from 'http-status';
 
 /**
- * This decorator enforces that the requesting user is the one 
+ * This decorator enforces that the requesting user is the one
  * making the specific action.
  * It prevents impersonation.
  * @returns {MethodDecorator}

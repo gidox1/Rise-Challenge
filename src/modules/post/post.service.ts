@@ -12,10 +12,10 @@ import { User } from '../../entity/user/user.entity';
 import { latestCommentsForPosts } from '../comment/comment.model';
 
 export interface PostService {
-  create(request: CreatePost): Promise<Post>
-  comment(request: PostCommentRequest, userId: number): Promise<Comment>
-  list(query: PaginationFilters): Promise<Post[]>
-  topPosts(): Promise<TopPostsResult[]>
+  create(request: CreatePost): Promise<Post>;
+  comment(request: PostCommentRequest, userId: number): Promise<Comment>;
+  list(query: PaginationFilters): Promise<Post[]>;
+  topPosts(): Promise<TopPostsResult[]>;
 }
 
 export class PostManagementService implements PostService {
@@ -25,9 +25,9 @@ export class PostManagementService implements PostService {
     private repository: Repository<Post>,
     private userRepository: Repository<User>,
     private commentRepository: Repository<Comment>,
-    private commentService: CommentService
+    private commentService: CommentService,
   ) {}
-  
+
   async create(request: CreatePost): Promise<Post> {
     this.logger.log('[CREATE]: started process of creating post', request);
     const metrics: Dictionary<string | number> = {};
@@ -37,10 +37,10 @@ export class PostManagementService implements PostService {
     try {
       const post = this.repository.create(request);
       return await this.repository.save(post);
-    } catch(error) {
+    } catch (error) {
       const message = 'failed to create post for user';
       this.logger.log(message, error, {
-        metrics
+        metrics,
       });
       throw new ContextualError(message, metrics, error);
     }
@@ -54,26 +54,17 @@ export class PostManagementService implements PostService {
 
     try {
       const post = await this.repository.findOneByOrFail({
-        id: request.postId
+        id: request.postId,
       });
       return await this.commentService.create({
         content: request.content,
-        post
+        post,
       });
-    } catch(error) {
+    } catch (error) {
       const message = error.message ?? 'failed to create comment on post';
-      this.logger.error(
-        error.message ?? message, 
-        error, 
-        metrics
-      );
-      if(error.name === 'EntityNotFoundError') {
-        throw new ContextualError(
-          `post with id ${request.postId} not found`, 
-          metrics, 
-          undefined, 
-          ErrorCodes.notFound
-        );
+      this.logger.error(error.message ?? message, error, metrics);
+      if (error.name === 'EntityNotFoundError') {
+        throw new ContextualError(`post with id ${request.postId} not found`, metrics, undefined, ErrorCodes.notFound);
       }
       throw new ContextualError(message, metrics, error);
     }
@@ -83,12 +74,14 @@ export class PostManagementService implements PostService {
     this.logger.log('[COMMENT-CREATE]: started process of fetching top post');
 
     try {
-      const topPosts = await topUsersWithHighestPosts(this.userRepository)
-      const topPostsIds = topPosts.map(post => post.post_id);
+      const topPosts = await topUsersWithHighestPosts(this.userRepository);
+      const topPostsIds = topPosts.map((post) => post.post_id);
       const latestPostsComments = await latestCommentsForPosts(this.commentRepository, topPostsIds, this.config);
-  
-      const topUsersResult = topPosts.map(topPost => {
-        const latestComment = <TopPostComments[]>latestPostsComments.filter(comment => comment.postId === topPost.post_id);
+
+      const topUsersResult = topPosts.map((topPost) => {
+        const latestComment = <TopPostComments[]>(
+          latestPostsComments.filter((comment) => comment.postId === topPost.post_id)
+        );
         return {
           userId: +topPost.user_id,
           userName: topPost.user_name,
@@ -97,12 +90,9 @@ export class PostManagementService implements PostService {
         };
       });
       return topUsersResult;
-    } catch(error) {
+    } catch (error) {
       const message = error.message ?? 'failed to fetch top posts';
-      this.logger.error(
-        error.message ?? message, 
-        error, 
-      );
+      this.logger.error(error.message ?? message, error);
       throw new ContextualError(message, {}, error);
     }
   }

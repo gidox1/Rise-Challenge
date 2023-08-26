@@ -4,7 +4,7 @@ dotenv.config();
 
 export interface Config {
   port: number;
-  appUrl: string,
+  appUrl: string;
   postgres: {
     host: string;
     port: number;
@@ -15,11 +15,11 @@ export interface Config {
   jwt: {
     secretKey: string;
     expiry: string;
-  },
-  pagination: PaginationFilters,
+  };
+  pagination: PaginationFilters;
   redis: {
-    port: number,
-  }
+    port: number;
+  };
 }
 
 export const config: Config = {
@@ -34,7 +34,7 @@ export const config: Config = {
   },
   jwt: {
     secretKey: process.env.JWT_SECRET || 'secret-key-ref',
-    expiry: '1h'
+    expiry: '1h',
   },
   pagination: {
     page: +process.env.PAGE || 1,
@@ -44,5 +44,5 @@ export const config: Config = {
   },
   redis: {
     port: +process.env.REDIS_PORT || 6378,
-  }
-}
+  },
+};

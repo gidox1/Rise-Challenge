@@ -26,8 +26,8 @@ export interface PaginationFilters {
   orderBy: string;
   sortOrder: 'DESC' | 'ASC';
   filters?: {
-    [key: string]: any
-  }
+    [key: string]: any;
+  };
 }
 
 export interface AppRequest extends Request {

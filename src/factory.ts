@@ -1,17 +1,17 @@
-import { Repository } from "typeorm";
-import { config, Config } from "./app/config";
-import { Post } from "./entity/post/post.entity";
-import { Logger } from "./types/common";
-import { AppDataSource } from "./app/data-source";
-import { User } from "./entity/user/user.entity";
+import { Repository } from 'typeorm';
+import { config, Config } from './app/config';
+import { Post } from './entity/post/post.entity';
+import { Logger } from './types/common';
+import { AppDataSource } from './app/data-source';
+import { User } from './entity/user/user.entity';
 import { UserController } from './modules/user/user.controller';
-import { UserManagementService } from "./modules/user/user.service";
-import { logger } from "./lib/logger";
+import { UserManagementService } from './modules/user/user.service';
+import { logger } from './lib/logger';
 import * as helpers from './modules/user/user.helper';
-import { PostManagementService, PostService } from "./modules/post/post.service";
-import { CommentManagementService } from "./modules/comment/comment.service";
-import { Comment } from "./entity/comment/comment.entity";
-import { PostController } from "./modules/post/post.controller";
+import { PostManagementService, PostService } from './modules/post/post.service';
+import { CommentManagementService } from './modules/comment/comment.service';
+import { Comment } from './entity/comment/comment.entity';
+import { PostController } from './modules/post/post.controller';
 
 export class ServiceFactory {
   private static config: Config;
@@ -30,7 +30,7 @@ export class ServiceFactory {
     ServiceFactory.instance = new ServiceFactory(logger);
     ServiceFactory.setConfig(config);
   }
-  
+
   public static async getPostRepository(): Promise<Repository<Post>> {
     return AppDataSource.getRepository(Post);
   }
@@ -60,8 +60,8 @@ export class ServiceFactory {
     const repository = await ServiceFactory.getPostRepository();
     const commentService = await ServiceFactory.getCommentService();
     const userRepository = await ServiceFactory.getUserRepository();
-    const commentRepository = await ServiceFactory.getCommentRepository()
-    return new PostManagementService(logger, config, repository, userRepository, commentRepository, commentService)
+    const commentRepository = await ServiceFactory.getCommentRepository();
+    return new PostManagementService(logger, config, repository, userRepository, commentRepository, commentService);
   }
 
   public static async getPostController(): Promise<PostController> {
@@ -72,6 +72,6 @@ export class ServiceFactory {
   public static async getCommentService(): Promise<CommentManagementService> {
     const config = ServiceFactory.getConfig();
     const repository = await ServiceFactory.getCommentRepository();
-    return new CommentManagementService(logger, config, repository)
+    return new CommentManagementService(logger, config, repository);
   }
 }

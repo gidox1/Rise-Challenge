@@ -16,7 +16,6 @@ const $getAuthToken = (req: Request) => {
   }
 };
 
-
 export const errorMiddleware = (error: Error, req: Request, res: Response, next: NextFunction) => {
   logger.error('[ERROR STACK]:', error.stack);
   const statusCode = ErrorCodes.internalServerError.httpCode!;
@@ -41,7 +40,7 @@ export const authMiddleware = (req: AppRequest, res: Response, config: Config, n
     next();
   } catch (error) {
     logger.error('Invalid token supplied', error, {
-      stack: error.stack
+      stack: error.stack,
     });
     res.status(httpStatus.BAD_REQUEST).json({ message: 'Invalid token.' });
   }

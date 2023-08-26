@@ -1,10 +1,4 @@
-import {
-  NextFunction,
-  Request,
-  Response,
-  Application,
-  response
-} from 'express';
+import { NextFunction, Request, Response, Application, response } from 'express';
 import { ServiceFactory } from '../../factory';
 import { requestValidator } from '../../lib/requestValidator';
 import { createPost, createUser, loginUser } from '../../routes/validation';
@@ -20,26 +14,29 @@ export default async (app: Application) => {
   app.get(`/${routePrefix}/ping`, (req: Request, res: Response, next: NextFunction) => {
     return res.send({
       routePrefix,
-      status: "healthy"
-    })
-  })
+      status: 'healthy',
+    });
+  });
 
   // create user
-  app.post(`/${routePrefix}`, 
+  app.post(
+    `/${routePrefix}`,
     (req: Request, res: Response, next: NextFunction) => requestValidator(req.body, createUser, res, next),
-    (req: Request, res: Response, next: NextFunction) => controller.create(req, res)
+    (req: Request, res: Response, next: NextFunction) => controller.create(req, res),
   );
 
   // authenticate user
-  app.post(`/${routePrefix}/auth`,
+  app.post(
+    `/${routePrefix}/auth`,
     (req: Request, res: Response, next: NextFunction) => requestValidator(req.body, loginUser, res, next),
-    (req: Request, res: Response, next: NextFunction) => controller.login(req, res)
+    (req: Request, res: Response, next: NextFunction) => controller.login(req, res),
   );
 
   // create post
-  app.post(`/${routePrefix}/:id/post`,
+  app.post(
+    `/${routePrefix}/:id/post`,
     (req: Request, res: Response, next: NextFunction) => requestValidator(req.body, createPost, res, next),
     (req: AppRequest, res: Response, next: NextFunction) => authMiddleware(req, res, config, next),
-    (req: Request, res: Response, next: NextFunction) => controller.createPost(req, res)
-  )
-}
+    (req: Request, res: Response, next: NextFunction) => controller.createPost(req, res),
+  );
+};

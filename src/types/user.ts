@@ -1,10 +1,10 @@
-import { User } from "../entity/user/user.entity";
+import { User } from '../entity/user/user.entity';
 
 export interface CreateUser {
   name: string;
   email: string;
   password: string;
-  username: string
+  username: string;
 }
 
 export interface LoginUser {

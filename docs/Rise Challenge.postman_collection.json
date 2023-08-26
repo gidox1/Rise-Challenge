@@ -1,0 +1,283 @@
+{
+	"info": {
+		"_postman_id": "a4b2bb1d-fbaf-4581-8146-9f58918fa750",
+		"name": "Rise Challenge",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "4142793"
+	},
+	"item": [
+		{
+			"name": "user",
+			"item": [
+				{
+					"name": "ping",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://rise-api-219975e8ee52.herokuapp.com/user/ping",
+							"protocol": "https",
+							"host": [
+								"rise-api-219975e8ee52",
+								"herokuapp",
+								"com"
+							],
+							"path": [
+								"user",
+								"ping"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"ever@gmail.com\",\n    \"password\": \"Testing\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://rise-api-219975e8ee52.herokuapp.com/user/auth",
+							"protocol": "https",
+							"host": [
+								"rise-api-219975e8ee52",
+								"herokuapp",
+								"com"
+							],
+							"path": [
+								"user",
+								"auth"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Daniel Jordan\",\n    \"email\": \"dani@gmail.com\",\n    \"password\": \"Testing\",\n    \"username\": \"dani\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://rise-api-219975e8ee52.herokuapp.com/user",
+							"protocol": "https",
+							"host": [
+								"rise-api-219975e8ee52",
+								"herokuapp",
+								"com"
+							],
+							"path": [
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create post",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNjkzMDc4OTU2LCJleHAiOjE2OTMwODI1NTZ9.ptOEcUZSVW5N82G9ZAxCD24rW0BbMILzAImA7d7NeGs",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"Dine with Danny\",\n    \"body\": \"My second post\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://rise-api-219975e8ee52.herokuapp.com/user/2/post",
+							"protocol": "https",
+							"host": [
+								"rise-api-219975e8ee52",
+								"herokuapp",
+								"com"
+							],
+							"path": [
+								"user",
+								"2",
+								"post"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "post",
+			"item": [
+				{
+					"name": "ping",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://rise-api-219975e8ee52.herokuapp.com/post/ping",
+							"protocol": "https",
+							"host": [
+								"rise-api-219975e8ee52",
+								"herokuapp",
+								"com"
+							],
+							"path": [
+								"post",
+								"ping"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "comment on post",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjkzMDc5MDQwLCJleHAiOjE2OTMwODI2NDB9.2cJixDkSHySUqM1pRPEC-CKZt0n_x1D-hBDfjT59ye4",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"content\": \"That's just the way it is!\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://rise-api-219975e8ee52.herokuapp.com/post/2/comment",
+							"protocol": "https",
+							"host": [
+								"rise-api-219975e8ee52",
+								"herokuapp",
+								"com"
+							],
+							"path": [
+								"post",
+								"2",
+								"comment"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "top-posts",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjkzMDc4NzgxLCJleHAiOjE2OTMwODIzODF9.KJhhgF9v4Zt5ingiIsi7VEjjXV9RKLxZYzl4pAcGtks",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://rise-api-219975e8ee52.herokuapp.com/post/top-posts",
+							"protocol": "https",
+							"host": [
+								"rise-api-219975e8ee52",
+								"herokuapp",
+								"com"
+							],
+							"path": [
+								"post",
+								"top-posts"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "comment",
+			"item": [
+				{
+					"name": "ping",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://rise-api-219975e8ee52.herokuapp.com/comment/ping",
+							"protocol": "https",
+							"host": [
+								"rise-api-219975e8ee52",
+								"herokuapp",
+								"com"
+							],
+							"path": [
+								"comment",
+								"ping"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "ping",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://rise-api-219975e8ee52.herokuapp.com",
+					"protocol": "https",
+					"host": [
+						"rise-api-219975e8ee52",
+						"herokuapp",
+						"com"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

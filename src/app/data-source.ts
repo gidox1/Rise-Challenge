@@ -3,8 +3,8 @@ import { DataSource, DataSourceOptions } from 'typeorm';
 import { config } from './config';
 
 const options: DataSourceOptions = {
-  type: "postgres",
-  host: config.postgres.host || "db",
+  type: 'postgres',
+  host: config.postgres.host || 'db',
   port: config.postgres.port,
   username: config.postgres.user,
   password: config.postgres.password,
@@ -13,9 +13,16 @@ const options: DataSourceOptions = {
   logging: ['query'],
   entities: ['src/entity/**/*.entity.{ts,js}'],
   migrations: ['src/migrations/*.{ts,js}'],
-  migrationsTableName: "migrations",
-  ssl: {
-    rejectUnauthorized: false
-  }
+  migrationsTableName: 'migrations',
 };
-export const AppDataSource = new DataSource(options);
+
+export let AppDataSource: DataSource = undefined;
+if (Boolean(process.env.SSL_ENABLED) === true) {
+  AppDataSource = new DataSource({
+    ...options,
+    ssl: {
+      rejectUnauthorized: false,
+    },
+  });
+}
+AppDataSource = new DataSource(options);

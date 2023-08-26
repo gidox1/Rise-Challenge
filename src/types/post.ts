@@ -1,4 +1,4 @@
-import { User } from "../entity/user/user.entity";
+import { User } from '../entity/user/user.entity';
 
 export interface CreatePost {
   body: string;

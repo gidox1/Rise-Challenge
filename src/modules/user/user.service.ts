@@ -6,16 +6,16 @@ import { UserHelperService, decryptPassword, hashPassword } from './user.helper'
 import { User } from '../../entity/user/user.entity';
 import { ContextualError, ErrorCodes } from '../../types/errors';
 import jwt from 'jsonwebtoken';
-import { CreatePost} from '../../types/post';
+import { CreatePost } from '../../types/post';
 import { Post } from '../../entity/post/post.entity';
 import { PostService } from '../post/post.service';
 import { CommentManagementService } from '../comment/comment.service';
 
 export interface UserService {
-  create(request: CreateUser): Promise<User>
-  list(query: PaginationFilters): Promise<User[]>
-  createPost(data: CreatePost, userId: number): Promise<Post>
-  login(data: LoginUser): Promise<LoginResponse>
+  create(request: CreateUser): Promise<User>;
+  list(query: PaginationFilters): Promise<User[]>;
+  createPost(data: CreatePost, userId: number): Promise<Post>;
+  login(data: LoginUser): Promise<LoginResponse>;
 }
 
 export class UserManagementService implements UserService {
@@ -26,7 +26,7 @@ export class UserManagementService implements UserService {
     private helpers: UserHelperService,
     private postService: PostService,
   ) {}
-  
+
   async create(request: CreateUser): Promise<User> {
     this.logger.log('[CREATE]: started process of user creation');
     const metrics: Dictionary<string | number> = {};
@@ -45,10 +45,10 @@ export class UserManagementService implements UserService {
       request.password = await this.helpers.hashPassword(request.password);
       const user = this.repository.create(request);
       return await this.repository.save(user);
-    } catch(error) {
+    } catch (error) {
       const message = 'failed while creating user';
       this.logger.error(message, error);
-      if(error instanceof ContextualError) {
+      if (error instanceof ContextualError) {
         throw error;
       }
       throw new ContextualError(message, metrics, error);
@@ -59,7 +59,7 @@ export class UserManagementService implements UserService {
     this.logger.log('[CREATE]: started process of user authentication');
     const metrics: Dictionary<string | number> = {};
     metrics.email = data.email;
-    
+
     try {
       const existingUser = await this.repository.findOneBy({ email: data.email });
       if (!existingUser) {
@@ -67,22 +67,24 @@ export class UserManagementService implements UserService {
       }
 
       const passwordCorrectness = await this.helpers.decryptPassword(data.password, existingUser.password);
-      if(!passwordCorrectness) {
+      if (!passwordCorrectness) {
         throw new ContextualError('invalid credentials', metrics, undefined, ErrorCodes.unauthorized);
       }
 
-      const token = await jwt.sign({ id: existingUser.id }, this.config.jwt.secretKey, { expiresIn: this.config.jwt.expiry });
+      const token = await jwt.sign({ id: existingUser.id }, this.config.jwt.secretKey, {
+        expiresIn: this.config.jwt.expiry,
+      });
       this.logger.log('successfully authenticated user', metrics);
       return {
         user: existingUser,
-        token
-      }
-    } catch(error) {
+        token,
+      };
+    } catch (error) {
       const message = 'failed to authenticate user';
       this.logger.error(message, error, {
-        metrics
+        metrics,
       });
-      if(error instanceof ContextualError) {
+      if (error instanceof ContextualError) {
         throw error;
       }
       throw new ContextualError(message, metrics, error);
@@ -97,24 +99,19 @@ export class UserManagementService implements UserService {
 
     try {
       const user = await this.repository.findOneByOrFail({
-        id: +userId
-      })
+        id: +userId,
+      });
       return await this.postService.create({
         ...data,
         user,
       });
-    } catch(error) {
+    } catch (error) {
       const message = error.message ?? 'failed to create post for user: ';
       this.logger.error(message, error, {
-        metrics
+        metrics,
       });
-      if(error.name === 'EntityNotFoundError') {
-        throw new ContextualError(
-          `user with id ${userId} was not found`, 
-          metrics, 
-          undefined, 
-          ErrorCodes.notFound
-        );
+      if (error.name === 'EntityNotFoundError') {
+        throw new ContextualError(`user with id ${userId} was not found`, metrics, undefined, ErrorCodes.notFound);
       }
       throw error;
     }

@@ -13,7 +13,7 @@ export enum ErrorCodeType {
   notFound = 'notFound',
   badRequest = 'badRequest',
   integrityError = 'integrityError',
-  unauthorized = 'unauthorized'
+  unauthorized = 'unauthorized',
 }
 
 export class ErrorCodes {
@@ -43,15 +43,14 @@ export class ErrorCodes {
     type: ErrorCodeType.integrityError,
     message: 'Resource already exists',
     httpCode: 'CONFLICT',
-  }
+  };
 
   public static unauthorized: ErrorCode = {
     type: ErrorCodeType.unauthorized,
     message: 'Resource already exists',
     httpCode: 'UNAUTHORIZED',
-  }
+  };
 }
-
 
 export class ContextualError extends Error {
   public sqlMessage: any;

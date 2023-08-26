@@ -1,9 +1,4 @@
-import {
-  NextFunction,
-  Request,
-  Response,
-  Application
-} from 'express';
+import { NextFunction, Request, Response, Application } from 'express';
 
 export default async (app: Application) => {
   const routePrefix = 'comment';
@@ -12,7 +7,7 @@ export default async (app: Application) => {
   app.get(`/${routePrefix}/ping`, (req: Request, res: Response, next: NextFunction) => {
     res.send({
       routePrefix,
-      status: "healthy"
-    })
-  })
-}
+      status: 'healthy',
+    });
+  });
+};

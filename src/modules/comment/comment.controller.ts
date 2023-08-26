@@ -1,11 +1,5 @@
-import { Controller, Logger } from "../../types/common";
-import express, {
-  Application,
-  NextFunction,
-  Request,
-  Response,
-  Router
-} from 'express';
+import { Controller, Logger } from '../../types/common';
+import express, { Application, NextFunction, Request, Response, Router } from 'express';
 
 interface CommentControllerInterface {
   create(req: Request, res: Response, next?: NextFunction): Promise<void | Response<any, Record<string, any>>>;
@@ -14,14 +8,14 @@ interface CommentControllerInterface {
 
 export class CommentController extends Controller implements CommentControllerInterface {
   constructor(logger: Logger, service: any) {
-    super(logger)
+    super(logger);
   }
 
   async create(): Promise<void | Response<any, Record<string, any>>> {
-    return
+    return;
   }
 
   async list(): Promise<void | Response<any, Record<string, any>>> {
-    return
+    return;
   }
 }

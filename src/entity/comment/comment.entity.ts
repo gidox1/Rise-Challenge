@@ -16,7 +16,7 @@ export class Comment {
   @CreateDateColumn()
   updatedAt: Date;
 
-  @ManyToOne(() => Post, post => post.comments)
+  @ManyToOne(() => Post, (post) => post.comments)
   @JoinColumn({ name: 'postId' })
   post: Post;
 }

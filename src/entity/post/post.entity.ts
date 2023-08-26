@@ -19,10 +19,10 @@ export class Post {
   @CreateDateColumn()
   updatedAt: Date;
 
-  @ManyToOne(() => User, user => user.posts)
-  @JoinColumn({ name: "userId" })
+  @ManyToOne(() => User, (user) => user.posts)
+  @JoinColumn({ name: 'userId' })
   user: User;
 
-  @OneToMany(() => Comment, comment => comment.post)
+  @OneToMany(() => Comment, (comment) => comment.post)
   comments?: Comment[];
 }

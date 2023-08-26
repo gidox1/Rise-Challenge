@@ -11,7 +11,8 @@
     "serve": "node dist/appServer.js",
     "start": "npx ts-node-dev appServer.ts",
     "prestart": "npm run migration:run",
-    "migration:run": "typeorm-ts-node-esm migration:run -d src/app/data-source.ts"
+    "migration:run": "typeorm-ts-node-esm migration:run -d src/app/data-source.ts",
+    "format": "prettier --config ./.prettierrc --write \"src/**/*.ts\""
   },
   "keywords": [],
   "author": "",
@@ -29,6 +30,7 @@
     "joi": "^17.9.2",
     "jsonwebtoken": "^9.0.1",
     "pg": "^8.11.3",
+    "prettier": "^3.0.2",
     "redis": "^4.6.8",
     "turbo-logger": "^1.1.9",
     "typeorm": "^0.3.17",
