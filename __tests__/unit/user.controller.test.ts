@@ -9,7 +9,7 @@ import { userMock } from "../mocks/services/userServiceMock";
 import { Dictionary } from "../../src/types/common";
 
 describe('User Controller', () => {
-  it('should successfully create a booking and return a 201', async() => {
+  it('should successfully create a user', async() => {
     const userService = getUserService();
     userService.create = vi.fn().mockResolvedValue(userMock);
     const logger = createMockLogger();
