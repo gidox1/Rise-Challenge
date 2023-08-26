@@ -17,4 +17,4 @@ Entities:
   - USER
   - COMMENT
 
-Postman collection and query optimization document can be found in the docs/ folfer
+Postman collection and query optimization document can be found in the docs/ folder
