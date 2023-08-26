@@ -14,5 +14,8 @@ const options: DataSourceOptions = {
   entities: ['src/entity/**/*.entity.{ts,js}'],
   migrations: ['src/migrations/*.{ts,js}'],
   migrationsTableName: "migrations",
+  ssl: {
+    rejectUnauthorized: false
+  }
 };
 export const AppDataSource = new DataSource(options);
