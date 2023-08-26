@@ -8,7 +8,8 @@
     "coverage": "vitest run --coverage",
     "start:dev": "cross-env NODE_ENV=dev ts-node-dev appServer.ts",
     "start": "npm run serve",
-    "prestart": "npm run migration:run"
+    "prestart": "npm run migration:run",
+    "migration:run": "typeorm-ts-node-esm migration:run -d src/app/data-source.ts"
   },
   "keywords": [],
   "author": "",
