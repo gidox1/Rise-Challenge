@@ -2,6 +2,7 @@ import { vi } from "vitest";
 import { DeepPartial, Repository } from "typeorm";
 import { User } from "../src/entity/user/user.entity";
 import { Post } from "../src/entity/post/post.entity";
+import { Comment } from "../src/entity/comment/comment.entity";
 
 export function getUserRepository(): Repository<User> {
   const functions: DeepPartial<Repository<User>> = {

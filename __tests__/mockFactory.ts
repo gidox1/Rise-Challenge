@@ -12,6 +12,7 @@ import { PostManagementService, PostService } from "../src/modules/post/post.ser
 import { CommentManagementService, CommentService } from "../src/modules/comment/comment.service";
 import { commentServiceMock } from "./mocks/services/commentServiceMock";
 import { Post } from "../src/entity/post/post.entity";
+import { Comment } from "../src/entity/comment/comment.entity";
 
 export function getUserService(options?: {
   logger?: Logger;
@@ -34,12 +35,16 @@ export function getPostService(options?: {
   logger?: Logger;
   config?: Config;
   repository?: Repository<Post>;
+  userRepository?: Repository<User>,
+  commentRepository?: Repository<Comment>
   commentService?: CommentService;
 }): PostService {
   return new PostManagementService(
     options?.logger ?? logger,
     options?.config ?? createMockConfig(),
     options?.repository ?? getPostRepository(),
+    options?.userRepository ?? getUserRepository(),
+    options?.commentRepository ?? getCommentRepository(),
     options?.commentService ?? commentServiceMock()
   )
 }

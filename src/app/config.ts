@@ -17,7 +17,7 @@ export interface Config {
     expiry: string;
   },
   pagination: PaginationFilters,
-  reids: {
+  redis: {
     port: number,
   }
 }
@@ -42,7 +42,7 @@ export const config: Config = {
     orderBy: process.env.ORDER_BY || 'createdAt',
     sortOrder: (process.env.ORDER_BY as 'DESC' | 'ASC') || 'ASC',
   },
-  reids: {
+  redis: {
     port: +process.env.REDIS_PORT || 6378,
   }
 }

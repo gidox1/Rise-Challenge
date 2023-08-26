@@ -2,7 +2,7 @@ import redis from 'redis';
 import { logger } from './logger';
 import { config } from '../app/config';
 
-const url = process.env.REDIS_URL || `redis://localhost:${config.reids.port}`;
+const url = process.env.REDIS_URL || `redis://localhost:${config.redis.port}`;
 const client = redis.createClient({
     url
 });

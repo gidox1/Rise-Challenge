@@ -19,6 +19,15 @@ export function createMockConfig(options?: MockConfigParams): Config {
     jwt: options?.jwt ?? {
       secretKey: '',
       expiry: '',
+    },
+    pagination: {
+      page: 1,
+      pageSize: 20,
+      orderBy: 'createdAt',
+      sortOrder: 'ASC',
+    },
+    redis: {
+      port: 6379
     }
   }
 }
