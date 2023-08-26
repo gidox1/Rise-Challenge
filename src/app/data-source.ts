@@ -24,5 +24,6 @@ if (Boolean(process.env.SSL_ENABLED) === true) {
       rejectUnauthorized: false,
     },
   });
+} else {
+  AppDataSource = new DataSource(options);
 }
-AppDataSource = new DataSource(options);
