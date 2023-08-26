@@ -4,7 +4,7 @@ import { config } from './config';
 
 const options: DataSourceOptions = {
   type: "postgres",
-  host: "db",
+  host: config.postgres.host || "db",
   port: config.postgres.port,
   username: config.postgres.user,
   password: config.postgres.password,
